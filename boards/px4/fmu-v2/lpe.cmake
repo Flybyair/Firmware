@@ -10,18 +10,21 @@ px4_add_board(
 	BOOTLOADER ${PX4_SOURCE_DIR}/ROMFS/px4fmu_common/extras/px4fmuv3_bl.bin
 	IO px4_io-v2_default
 	#TESTING
+	CONSTRAINED_FLASH
 	#UAVCAN_INTERFACES 2
 
 	SERIAL_PORTS
-		GPS1:/dev/ttyS0
+		GPS1:/dev/ttyS3
 		TEL1:/dev/ttyS1
 		TEL2:/dev/ttyS2
-		TEL4:/dev/ttyS3
+		TEL4:/dev/ttyS6
 
 	DRIVERS
+		adc/board_adc
 		#barometer # all available barometer drivers
 		barometer/ms5611
 		#batt_smbus
+		camera_capture
 		camera_trigger
 		#differential_pressure # all available differential pressure drivers
 		#differential_pressure/ms4525
@@ -32,29 +35,26 @@ px4_add_board(
 		#imu # all available imu drivers
 		imu/l3gd20
 		imu/lsm303d
-		imu/mpu6000
-		#imu/mpu9250
+		imu/invensense/mpu6000
 		#iridiumsbd
 		irlock
 		#lights/blinkm
-		#lights/oreoled
 		lights/rgbled
 		#magnetometer # all available magnetometer drivers
 		magnetometer/hmc5883
 		#mkblctrl
+		#optical_flow # all available optical flow drivers
+		optical_flow/px4flow
 		#pca9685
 		#protocol_splitter
 		#pwm_input
 		pwm_out_sim
-		px4flow
-		px4fmu
+		pwm_out
 		px4io
-		stm32
-		stm32/adc
-		stm32/tone_alarm
 		#tap_esc
 		#telemetry # all available telemetry drivers
 		#test_ppm
+		tone_alarm
 		#uavcan
 
 	MODULES
@@ -64,10 +64,10 @@ px4_add_board(
 		dataman
 		#ekf2
 		events
+		flight_mode_manager
 		#fw_att_control
 		#fw_pos_control_l1
-		#gnd_att_control
-		#gnd_pos_control
+		#rover_pos_control
 		land_detector
 		landing_target_estimator
 		load_mon
@@ -75,21 +75,25 @@ px4_add_board(
 		logger
 		mavlink
 		mc_att_control
+		mc_rate_control
 		mc_pos_control
 		navigator
-		#position_estimator_inav
+		battery_status
+		rc_update
 		sensors
+		temperature_compensation
 		vmount
 		#vtol_att_control
-		#wind_estimator
+		#airspeed_selector
 
 	SYSTEMCMDS
 		bl_update
-		#config
 		#dumpfile
 		#esc_calib
 		hardfault_log
+		i2cdetect
 		#led_control
+		mft
 		mixer
 		#motor_ramp
 		motor_test
@@ -105,14 +109,13 @@ px4_add_board(
 		#topic_listener
 		tune_control
 		ver
+		work_queue
 
 	EXAMPLES
-		#bottle_drop # OBC challenge
 		#fixedwing_control # Tutorial code from https://px4.io/dev/example_fixedwing_control
 		#hello
 		#hwtest # Hardware test
-		#px4_mavlink_debug # Tutorial code from https://px4.io/dev/debug_values
-		#px4_simple_app # Tutorial code from https://px4.io/dev/px4_simple_app
+		#px4_mavlink_debug # Tutorial code from http://dev.px4.io/en/debug/debug_values.html
+		#px4_simple_app # Tutorial code from http://dev.px4.io/en/apps/hello_sky.html
 		#rover_steering_control # Rover example app
-		#segway
 	)

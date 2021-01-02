@@ -32,16 +32,18 @@
 #
 ############################################################################
 
-px4_add_library(drivers_board
+add_library(drivers_board
+	i2c.cpp
 	init.c
 	led.c
-	spi.c
-	timer_config.c
+	mtd.cpp
+	spi.cpp
+	timer_config.cpp
 )
 target_link_libraries(drivers_board
 	PRIVATE
+		arch_spi
 		drivers__led # drv_led_start
-		nuttx_apps # up_cxxinitialize
-		parameters # param_init
-		modules__dataman # dm_flash_sector_description_set
+		px4_layer
+		modules__dataman # dm_flash_sector_description_set # TODO: fix this
 )
